@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/8.9.0/bin/node /Users/ppm/.yarn/bin/yarn.js start
+  /usr/local/Cellar/node/8.9.0/bin/node /Users/ppm/.yarn/bin/yarn.js run start
 
 PATH: 
   /Users/ppm/.yarn/bin:/Users/ppm/.config/yarn/global/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
