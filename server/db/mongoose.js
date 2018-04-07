@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 // The line below tells mongoose to user the global promises that come
 // with javascript
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+mongoose.connect(
+	process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp',
+);
 
 module.exports = {
 	mongoose,
