@@ -1,3 +1,6 @@
+// bring in the config file to be use as soon as we run the server
+require('./config/config');
+
 const express = require('express');
 const { ObjectId } = require('mongodb');
 const _ = require('lodash');
@@ -7,7 +10,7 @@ const { Todo } = require('./models/todo');
 const { User } = require('./models/user');
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
@@ -61,10 +64,6 @@ app.get('/todos/:id', (req, res) => {
 		.catch(err => res.status(404).send());
 });
 
-app.listen(port, () => {
-	console.log(`Server up in port ${port}`);
-});
-
 // remove todo
 app.delete('/todos/:id', (req, res) => {
 	const id = req.params.id;
@@ -111,6 +110,10 @@ app.patch('/todos/:id', (req, res) => {
 			res.send(todo);
 		})
 		.catch(err => res.status(400).send());
+});
+
+app.listen(port, () => {
+	console.log(`Server up in port ${port}`);
 });
 
 module.exports = { app };
