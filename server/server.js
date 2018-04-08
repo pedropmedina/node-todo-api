@@ -64,4 +64,24 @@ app.listen(port, () => {
 	console.log(`Server up in port ${port}`);
 });
 
+// remove todo
+app.delete('/todos/:id', (req, res) => {
+	const id = req.params.id;
+	if (!ObjectId.isValid(id)) {
+		res.status(404).send();
+		return;
+	}
+	Todo.findByIdAndRemove(id)
+		.then(todo => {
+			if (!todo) {
+				res.status(404).send();
+				return;
+			}
+			res.status(200).send(todo);
+		})
+		.catch(err => {
+			res.status(400).send();
+		});
+});
+
 module.exports = { app };
