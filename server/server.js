@@ -1,5 +1,6 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
+const _ = require('lodash');
 
 const { mongoose } = require('./db/mongoose');
 const { Todo } = require('./models/todo');
@@ -82,6 +83,34 @@ app.delete('/todos/:id', (req, res) => {
 		.catch(err => {
 			res.status(400).send();
 		});
+});
+
+// update todo
+app.patch('/todos/:id', (req, res) => {
+	const id = req.params.id;
+	const body = _.pick(req.body, ['text', 'completed']);
+
+	if (!ObjectId.isValid(id)) {
+		res.status(404).send();
+		return;
+	}
+
+	if (_.isBoolean(body.completed) && body.completed) {
+		body.completedAt = new Date().getTime();
+	} else {
+		body.completed = false;
+		body.completedAt = null;
+	}
+
+	Todo.findByIdAndUpdate(id, { $set: body }, { new: true })
+		.then(todo => {
+			if (!todo) {
+				res.status(404).send();
+			}
+
+			res.send(todo);
+		})
+		.catch(err => res.status(400).send());
 });
 
 module.exports = { app };
